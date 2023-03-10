@@ -1,0 +1,52 @@
+.qAnda{
+    height: max-content;
+    margin-top: 20px;
+    min-height: 500px;
+}
+
+.search-box input{
+    width: 55%;
+    height: 40px;
+    margin-right: 30px;
+    margin-left: 110px;
+}
+
+.search-box button{
+    margin-right: 30px;
+    height: 40px;
+    width: 100px;
+    padding-bottom: 10px;
+}
+
+.search-box{
+    margin-bottom: 15px;
+}
+.see-detail{
+    position: relative;
+    left: 600px;
+}
+
+.question-content img{
+    vertical-align: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 30px;
+    margin-top: 10px;
+}
+
+.question-content h4{
+    font-size: 16px;
+    position: relative;
+    left: 10px;
+    background-color: white;
+    padding: 5px 0px 5px 10px;
+    border-radius: 5px;
+}
+
+.question-content img{
+    vertical-align: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 30px;
+    margin-top: 10px;
+}
