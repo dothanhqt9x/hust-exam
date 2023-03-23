@@ -61,7 +61,8 @@ function Header() {
                   <li className="nav-item">
                     <a className="nav-link"  href='#footer'>Liên hệ</a>
                   </li>  
-                  { userInfo.role === '02' ? 
+                  {
+                    userInfo?.role === '02' ? 
                   (<li className="nav-item">
                     <a className="nav-link"  href='/homeadmin'>Page Admin</a>
                   </li>) : null

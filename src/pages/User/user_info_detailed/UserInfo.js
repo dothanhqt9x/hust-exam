@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { changeUserInfo, getUserInfo, uploadAvatar } from "../../../redux/apiRequest";
@@ -10,8 +10,8 @@ function UserInfo(){
     const user = useSelector(state => state.user.user.userInfo);
     const [dob, setDob] = useState('');
     const [show, setShow] = useState(false);
-    const [address, setAddress] = useState('');
-    const [name, setName] = useState('');
+    const [address, setAddress] = useState(user.address);
+    const [name, setName] = useState(user.username);
     const [avatar, setAvatar] = useState();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ function UserInfo(){
     const formData = new FormData();
     formData.append('file', avatar);
     const handleUploadAvatar = ()=>{
-        uploadAvatar(formData, dispatch);
+        uploadAvatar(formData, dispatch, navigate);
         setShow(false);
         setAvatar();
         getUserInfo(userLog.accessToken, dispatch, navigate);

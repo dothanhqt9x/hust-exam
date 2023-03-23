@@ -1,6 +1,5 @@
 import './Result.css';
-import {point} from '../TakeExam/Take_Exam'
-import {time} from '../TakeExam/CountdownTimer'
+import {point, time} from '../TakeExam/Take_Exam'
 import { useDispatch, useSelector } from 'react-redux';
 import { getHistory } from '../../../redux/apiRequest';
 import { useNavigate } from 'react-router-dom';

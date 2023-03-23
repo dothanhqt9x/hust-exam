@@ -18,6 +18,10 @@ function Account() {
 
     useEffect(() => {
         getAllAccounts(dispatch, navigate);
+    }, [])
+
+    useEffect(() => {
+        getAllAccounts(dispatch, navigate);
     }, [dispatch, navigate, componentState])
 
     // if (isFetching) {
@@ -44,7 +48,7 @@ function Account() {
                     <th>Action</th>
                 </thead>
                 <tbody>
-                    {allAccounts.map((account) => (
+                    {allAccounts?.map((account) => (
                         <tr key={account.userId}>
                             <td>{account.role}</td>
                             <td>{account.email}</td>

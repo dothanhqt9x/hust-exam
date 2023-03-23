@@ -8,6 +8,8 @@ import Signup from '../signup/signup';
 import Validator from '../../../validator';
 // import setupProxy from '../../setupProxy';
 function Login(){
+    const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/;
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
@@ -15,11 +17,19 @@ function Login(){
     const userLog = useSelector((state) => state.auth.login?.currentUser);
     const handleLogin = (e) => {
         e.preventDefault();
-        const newUser = {
-            email: email,
-            password: password
+
+        if (!emailPattern.test(email)) {
+            alert("email không hợp lệ")
+        } else if (!passwordPattern.test(password)) {
+            alert("password không hợp lệ")
+        } else {
+            const newUser = {
+                email: email,
+                password: password
+            }
+            loginUser(newUser, dispatch, navigate);
         }
-        loginUser(newUser, dispatch, navigate);
+       
 
         // getUserInfo(userLog?.accessToken, dispatch)
         }

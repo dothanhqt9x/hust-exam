@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import { addComment, getPostDetail, replyComment } from '../../../redux/apiRequest';
@@ -13,6 +13,14 @@ export default function PostDetail(){
     const [reply, setReply] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setComment('');
+        setPostId(null);
+        setAnswer(false);
+        setReply(false);
+    }, [post]);
+
     const newComment = {
         post_id: postId,
         content: comment

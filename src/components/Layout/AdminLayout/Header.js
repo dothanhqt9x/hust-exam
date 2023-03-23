@@ -8,6 +8,7 @@ import './Header.css'
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userInfo = useSelector(state => state.user.user.userInfo);
   const navigateHome = () => {
     navigate('/homeadmin');
   }
@@ -61,6 +62,9 @@ function Header() {
                   navigate('/account');
               }}>Accounts</a>
             </li> 
+            { userInfo?.role === '02' ? (<li className="nav-item">
+                    <a className="nav-link" href='/'>Page Home</a>
+                  </li>) : null}
           </ul>
         </div>
         <div className='admin'>

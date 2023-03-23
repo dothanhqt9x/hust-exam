@@ -109,6 +109,7 @@ export const getUserInfo = async (accessToken, dispatch,navigate) => {
             headers: {token: `Bearer ${accessToken}`},
         })
         dispatch(getUserInfoSuccess(res.data));
+        navigate('/')
     }catch(err){
         dispatch(getUserInfoFailed());
         alert(err.message);
@@ -116,7 +117,7 @@ export const getUserInfo = async (accessToken, dispatch,navigate) => {
     }
 }
 
-export const uploadAvatar = async(formData, dispatch) => {
+export const uploadAvatar = async(formData, dispatch, navigate) => {
     dispatch(uploadAvatarStart());
     try{
         const res = await axios.post('/uploadAvatar',formData,{
@@ -124,6 +125,7 @@ export const uploadAvatar = async(formData, dispatch) => {
         })
         dispatch(uploadAvatarSuccess(res.data));
         alert('Thêm ảnh thành công!')
+        navigate('/')
     }catch(err){
         dispatch(uploadAvatarFailed());
         alert(err.message);
@@ -176,16 +178,23 @@ export const getQuestionsAdmin = async (page, dispatch, navigate) => {
 export const addQuestion = async(formData, dispatch) => {
     dispatch(addQuestionStart());
     try{
+        console.log("Question: ", formData.get("question"));
         const res = await axios.post('/question/create',formData,{
             headers: { ContentType: 'multipart/form-data' },
         })
         dispatch(addQuestionSuccess(res.data));
         alert('Thêm câu hỏi thành công!')
     }catch(err){
+        // console.log(err.response.data);
+        // dispatch(addQuestionFailed());
+        // console.log(err.message);
+        // if(err.message === 'Request failed with status code 400')
+        //     alert('Câu hỏi đã tồn tại');
+        //     else alert(err.message);
         dispatch(addQuestionFailed());
-        if(err.message === 'Request failed with status code 400')
-            alert('Câu hỏi đã tồn tại');
-            else alert(err.message);
+        const message = err.response.data.errorMessage
+        console.log(message);
+        alert(message)
     }
 }
 
@@ -357,6 +366,7 @@ export const editDocument = async(id, newDocument, dispatch) => {
 export const editQuestion = async(id, editNewQuestion, dispatch) => {
     dispatch(editQuestionStart());
     try{
+        console.log(editNewQuestion);
         const res = await axios.post(`/question/edit?questionNumber=${id}`, editNewQuestion, {
             headers: { ContentType: 'application/json'},
         })
@@ -426,6 +436,7 @@ export const getAllAccounts = async (dispatch, navigate) => {
     dispatch(getAccountsStart());
     try {
         const res = await axios.get('getListAccount')
+        console.log(res.data);
         dispatch(getAccountsSuccess(res.data));
     }catch(err){
         dispatch(getAccountsFailed());

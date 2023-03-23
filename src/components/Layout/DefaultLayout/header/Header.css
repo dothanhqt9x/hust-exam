@@ -44,7 +44,7 @@ body, html {
 .nav-link{
   color: #303C6C;
   font-weight: 500;
-  margin-left:60px;
+  margin-left:40px;
   transition: border-bottom 2s;
   width: 90px;
 }

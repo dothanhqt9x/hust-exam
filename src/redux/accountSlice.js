@@ -16,7 +16,7 @@ const accountSlice = createSlice({
     },
     reducers: {
         getAccountsStart: (state) => {
-            state.accounts.isFetching = true;
+            // state.accounts.isFetching = true;
         },
         getAccountsSuccess: (state, action) => {
             state.accounts.isFetching = false;

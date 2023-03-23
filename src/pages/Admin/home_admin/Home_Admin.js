@@ -51,10 +51,12 @@ function getTime(){
 var key = [];
 var keyEdit = [];
 var answers = [];
+var answersEdit = [];
 var timee = '';
 var page = 0;
 function HomeAdmin(){
     const questions = useSelector(state => state.questions.questionsAdmin?.allQuestions);
+    console.log(questions);
     const listResponses = useSelector(state => state.dashboard.statistic?.list);
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
@@ -64,10 +66,11 @@ function HomeAdmin(){
     const [answerB, setAnswerB] = useState('');
     const [answerC, setAnswerC] = useState('');
     const [answerD, setAnswerD] = useState('');
-    const [answers, setAnswers] = useState([]);
+    // const [answers, setAnswers] = useState([]);
     const [id, setId] = useState();
     const navigate = useNavigate();
     const [checkedState, setCheckedState] = useState(new Array(5).fill(false))
+    const [checkedEditState, setCheckedEditState] = useState(new Array(5).fill(false))
     // edit 
     const [showEdit, setShowEdit] = useState(false);
     const [titleEdit, setTitleEdit] = useState(''); 
@@ -75,7 +78,7 @@ function HomeAdmin(){
     const [answerBEdit, setAnswerBEdit] = useState('');
     const [answerCEdit, setAnswerCEdit] = useState('');
     const [answerDEdit, setAnswerDEdit] = useState('');
-    const [answersEdit, setAnswersEdit] = useState([]);
+    // const [answersEdit, setAnswersEdit] = useState([]);
 
     const handleCheckbox = (position) => {
         const updatedCheckedState = checkedState.map((item, index) =>
@@ -87,28 +90,48 @@ function HomeAdmin(){
             return key;
       }, [])
     }
-    const newQuestion = {
-        question: title,
-        answer: answers,
-        key: key,
+
+    const handleEditCheckbox = (position) => {
+        const updatedCheckedState = checkedEditState.map((item, index) =>
+        index === position ? !item : item );
+        setCheckedEditState(updatedCheckedState);
+
+        key = updatedCheckedState.reduce((key, currentState, index) => {
+            if(currentState) key.push(index);
+            return key;
+      }, [])
     }
-    const editNewQuestion = {
-        question: titleEdit,
-        answer: answersEdit,
-        key: key
-    }
+    // const newQuestion = {
+    //     question: title,
+    //     answer: answers,
+    //     key: key,
+    // }
+    // const editNewQuestion = {
+    //     question: titleEdit,
+    //     answer: answersEdit,
+    //     key: key
+    // }
     useEffect(() => {
             getQuestionsAdmin(0,dispatch, navigate);
             getStatisticByFilter(0,20,dispatch, navigate);
     },[])
-    var formData = new FormData();
-    formData.append('question', JSON.stringify(newQuestion));
-    formData.append('file', JSON.stringify(image));
+
     const handleSave = () => {
         if(answerA !== '') answers.push(answerA);
         if(answerB !== '') answers.push(answerB);
         if(answerC !== '') answers.push(answerC);
         if(answerD !== '') answers.push(answerD);
+
+        const newQuestion = {
+            question: title,
+            answer: answers,
+            key: key,
+        }
+
+        var formData = new FormData();
+        formData.append('question', JSON.stringify(newQuestion));
+        formData.append('file', JSON.stringify(image));
+
         timee = getTime();
         console.log(image);
         addQuestion(formData, dispatch);
@@ -125,11 +148,18 @@ function HomeAdmin(){
         if(answerDEdit !== '') answersEdit.push(answerDEdit);
         // timee = getTime();
         // console.log(image);
+
+        const editNewQuestion = {
+            question: titleEdit,
+            answer: answersEdit,
+            key: keyEdit
+        }
+
         console.log(id);
         console.log(editNewQuestion);
         editQuestion(id, editNewQuestion, dispatch);
-        setCheckedState(new Array(5).fill(false));
-        key = [];
+        setCheckedEditState(new Array(5).fill(false));
+        keyEdit = [];
         answersEdit = []
         setShowEdit(false);
     }
@@ -226,41 +256,41 @@ function HomeAdmin(){
                                     <br />
                     <label htmlFor="a">Đáp án A</label>
                     <input type="text" id='a' name='a' 
-                        onChange = { (e) =>setAnswerAEdit(e.target.value)} placeholder={question.answer[0]}/>
+                        onChange = { (e) =>setAnswerAEdit(e.target.value)} defaultValue={question.answer[0]}/>
                     <br />
                     <label htmlFor="b">Đáp án B</label>
                     <input type="text" id='b' name='b' 
-                        onChange = { (e) =>setAnswerBEdit(e.target.value)} placeholder={question.answer[1]}/>
+                        onChange = { (e) =>setAnswerBEdit(e.target.value)} defaultValue={question.answer[1]}/>
                     <br />
                     <label htmlFor="c">Đáp án C</label>
                     <input type="text" id='c' name='c' 
-                        onChange = { (e) =>setAnswerCEdit(e.target.value)} placeholder={question.answer[2]}/>
+                        onChange = { (e) =>setAnswerCEdit(e.target.value)} defaultValue={question.answer[2]}/>
                     <br />
                     <label htmlFor="d">Đáp án D</label>
                     <input type="text" id='d' name='d' 
-                        onChange = { (e) =>setAnswerDEdit(e.target.value)} placeholder={question.answer[3]}/>
+                        onChange = { (e) =>setAnswerDEdit(e.target.value)} defaultValue={question.answer[3]}/>
                     <br />                    
                 
                     <br />
                     <div className='key'>
                         <label htmlFor="key">Đáp án đúng</label>
                         <input type="checkbox" name='aa' id='aa' value={1}
-                            checked={checkedState[1]}
-                            onChange={() => {handleCheckbox(1)}}/>
+                            checked={checkedEditState[1]}
+                            onChange={() => {handleEditCheckbox(1)}}/>
                         <label htmlFor="aa">A</label>
                         <input type="checkbox" name='bb' id='bb' value={2}
-                            checked={checkedState[2]}
-                            onChange={() => {handleCheckbox(2)}}/>
+                            checked={checkedEditState[2]}
+                            onChange={() => {handleEditCheckbox(2)}}/>
                         <label htmlFor="bb">B</label>
                         <input type="checkbox" name='cc' id='cc'
                            value={3}
-                           checked={checkedState[3]}
-                           onChange={() => {handleCheckbox(3)}}/>
+                           checked={checkedEditState[3]}
+                           onChange={() => {handleEditCheckbox(3)}}/>
                         <label htmlFor="cc">C</label>
                         <input type="checkbox" name='dd' id='dd'
                           value={4}
-                          checked={checkedState[4]}
-                          onChange={() => {handleCheckbox(4)}}/>
+                          checked={checkedEditState[4]}
+                          onChange={() => {handleEditCheckbox(4)}}/>
                         <label htmlFor="dd">D</label>
                     </div>
 
